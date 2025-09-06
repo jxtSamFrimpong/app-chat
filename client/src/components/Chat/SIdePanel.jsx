@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { IoCloseCircle, IoMenu } from 'react-icons/io5'
 import { useDispatch, useSelector } from 'react-redux'
 import { v4 as uuid } from 'uuid'
-import { setCurrentChatID } from '../../store/chatSlice'
+import { setCurrentChatID, removeChat } from '../../store/chatSlice'
 
 function SIdePanel() {
 
@@ -34,14 +34,15 @@ function SIdePanel() {
                                     {
                                         chats.map(c => (
                                             <li key={c.id}
-                                                onClick={() => {
-                                                    dispatch(setCurrentChatID(c.id))
-                                                }}
                                                 className={c.id === currentChatID ? 'active' : ''}
                                             >
-                                                <span>{c.messages.length > 0 ?
+                                                <span
+                                                    onClick={() => {
+                                                        dispatch(setCurrentChatID(c.id))
+                                                    }}
+                                                >{c.messages.length > 0 ?
                                                     c.messages[0].content : 'New Chat'}</span>
-                                                <span className='deleteBtn' onClick={() => alert('Delete Chat')} >
+                                                <span className='deleteBtn' onClick={() => dispatch(removeChat(c.id))} >
                                                     <IoCloseCircle />
                                                 </span>
                                             </li>
